@@ -1,0 +1,60 @@
+{
+  "kind": "collectionType",
+  "collectionName": "beers",
+  "info": {
+    "singularName": "beer",
+    "pluralName": "beers",
+    "displayName": "Beer",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Name": {
+      "type": "string",
+      "required": true
+    },
+    "ABV": {
+      "type": "decimal",
+      "required": true
+    },
+    "Style": {
+      "type": "string"
+    },
+    "My_score": {
+      "type": "decimal",
+      "required": true,
+      "max": 5,
+      "min": 0
+    },
+    "Average_score": {
+      "type": "decimal",
+      "required": true,
+      "min": 0,
+      "max": 5
+    },
+    "Date": {
+      "type": "date",
+      "required": true
+    },
+    "Logo": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "Brewery": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::brewery.brewery",
+      "inversedBy": "Beers"
+    }
+  }
+}

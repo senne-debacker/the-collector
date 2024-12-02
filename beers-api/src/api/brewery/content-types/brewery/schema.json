@@ -1,0 +1,27 @@
+{
+  "kind": "collectionType",
+  "collectionName": "breweries",
+  "info": {
+    "singularName": "brewery",
+    "pluralName": "breweries",
+    "displayName": "Brewery"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Name": {
+      "type": "string"
+    },
+    "Location": {
+      "type": "string"
+    },
+    "Beers": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::beer.beer",
+      "mappedBy": "Brewery"
+    }
+  }
+}
