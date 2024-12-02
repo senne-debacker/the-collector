@@ -1,0 +1,14 @@
+{
+  "name": "users-s-backer-documents-howest-24--25-web--3-assignments-assignment--02-----the--collector-the-collector",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^4.16.16"
+  }
+}
