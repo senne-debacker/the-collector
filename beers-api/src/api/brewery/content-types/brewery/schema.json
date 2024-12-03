@@ -4,7 +4,8 @@
   "info": {
     "singularName": "brewery",
     "pluralName": "breweries",
-    "displayName": "Brewery"
+    "displayName": "Brewery",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -12,16 +13,32 @@
   "pluginOptions": {},
   "attributes": {
     "Name": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "Location": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "Beers": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::beer.beer",
       "mappedBy": "Brewery"
+    },
+    "Logo": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "Description": {
+      "type": "text"
     }
   }
 }

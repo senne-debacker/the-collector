@@ -381,7 +381,14 @@ export interface ApiBeerBeer extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
-    ABV: Schema.Attribute.Decimal & Schema.Attribute.Required;
+    ABV: Schema.Attribute.Decimal &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      >;
     Average_score: Schema.Attribute.Decimal &
       Schema.Attribute.Required &
       Schema.Attribute.SetMinMax<
@@ -395,14 +402,11 @@ export interface ApiBeerBeer extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    Date: Schema.Attribute.Date & Schema.Attribute.Required;
+    Date_tasted: Schema.Attribute.Date & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::beer.beer'> &
       Schema.Attribute.Private;
-    Logo: Schema.Attribute.Media<
-      'images' | 'files' | 'videos' | 'audios',
-      true
-    >;
+    Logo: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     My_score: Schema.Attribute.Decimal &
       Schema.Attribute.Required &
       Schema.Attribute.SetMinMax<
@@ -414,7 +418,7 @@ export interface ApiBeerBeer extends Struct.CollectionTypeSchema {
       >;
     Name: Schema.Attribute.String & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
-    Style: Schema.Attribute.String;
+    Style: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -424,6 +428,7 @@ export interface ApiBeerBeer extends Struct.CollectionTypeSchema {
 export interface ApiBreweryBrewery extends Struct.CollectionTypeSchema {
   collectionName: 'breweries';
   info: {
+    description: '';
     displayName: 'Brewery';
     pluralName: 'breweries';
     singularName: 'brewery';
@@ -436,14 +441,17 @@ export interface ApiBreweryBrewery extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    Description: Schema.Attribute.Text;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::brewery.brewery'
     > &
       Schema.Attribute.Private;
-    Location: Schema.Attribute.String;
-    Name: Schema.Attribute.String;
+    Location: Schema.Attribute.String & Schema.Attribute.Required;
+    Logo: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'> &
+      Schema.Attribute.Required;
+    Name: Schema.Attribute.String & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &

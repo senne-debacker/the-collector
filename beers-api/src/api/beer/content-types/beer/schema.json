@@ -18,30 +18,32 @@
     },
     "ABV": {
       "type": "decimal",
+      "min": 0,
       "required": true
     },
     "Style": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "My_score": {
+      "type": "decimal",
+      "max": 5,
+      "min": 0,
+      "required": true
+    },
+    "Average_score": {
       "type": "decimal",
       "required": true,
       "max": 5,
       "min": 0
     },
-    "Average_score": {
-      "type": "decimal",
-      "required": true,
-      "min": 0,
-      "max": 5
-    },
-    "Date": {
+    "Date_tasted": {
       "type": "date",
       "required": true
     },
     "Logo": {
       "type": "media",
-      "multiple": true,
+      "multiple": false,
       "required": false,
       "allowedTypes": [
         "images",
