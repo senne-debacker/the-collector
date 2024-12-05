@@ -23,13 +23,32 @@ console.log(beers[10]);
 	<body>
 		<main>
 			<ul>
-				{ beers.map((beer) => (
+				{
+					beers.map((beer) => (
 						<li>
-							<a href={`/beer/${beer.id}/`}>
-								<h2>{beer.Name}</h2>
-							</a>
+							<ul>
+								<li>
+									<a href={`/beer/${beer.id}/`}>
+										<h2>{beer.Name}</h2>
+									</a>
+								</li>
+								<li>{beer.ABV}</li>
+								<li>{beer.Style}</li>
+								<li>{beer.My_score}</li>
+								<li>{beer.Average_score}</li>
+								<li>{beer.Date_tasted}</li>
+								<li>
+									{beer.Logo != null && (
+										<img
+											src={`${import.meta.env.STRAPI_URL}${beer.Logo.url}`}
+										/>
+									)}
+								</li>
+								<li>{beer.Brewery.Name}</li>
+							</ul>
 						</li>
-				))}
+					))
+				}
 			</ul>
 		</main>
 	</body>
