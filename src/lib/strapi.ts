@@ -3,37 +3,49 @@ interface Props {
     query?: Record<string, string>;
     wrappedByKey?: string;
     wrappedByList?: boolean;
-  }
-  
-  export default async function fetchApi<T>({
+    pagination?: boolean; 
+}
+
+export default async function fetchApi<T>({
     endpoint,
     query,
     wrappedByKey,
     wrappedByList,
-  }: Props): Promise<T> {
-    if (endpoint.startsWith('/')) {
-      endpoint = endpoint.slice(1);
+    pagination = false,
+}: Props): Promise<T> {
+    if (endpoint.startsWith("/")) {
+        endpoint = endpoint.slice(1);
     }
-  
+
     const url = new URL(`${import.meta.env.STRAPI_URL}/api/${endpoint}`);
-  
+
     if (query) {
-      Object.entries(query).forEach(([key, value]) => {
-        url.searchParams.append(key, value);
-      });
+        Object.entries(query).forEach(([key, value]) => {
+            url.searchParams.append(key, value);
+        });
     }
-  
-    const res = await fetch(url.toString());
-    let data = await res.json();
-  
-    if (wrappedByKey) {
-      data = data[wrappedByKey];
-    }
-  
-    if (wrappedByList) {
-      data = data[0];
-    }
-  
-    return data as T;
-  }
-  
+
+    let results = [];
+    let page = 1;
+    let totalPages = 1;
+
+    do {
+        const res = await fetch(url.toString());
+        const data = await res.json();
+
+        if (wrappedByKey) {
+            const currentPageData = data[wrappedByKey];
+            results = results.concat(currentPageData);
+        }
+
+        if (pagination && data.meta?.pagination) {
+            totalPages = data.meta.pagination.pageCount;
+            page++;
+            url.searchParams.set("pagination[page]", page.toString());
+        } else {
+            break; 
+        }
+    } while (page <= totalPages);
+
+    return results as T;
+}
