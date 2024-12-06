@@ -1,0 +1,83 @@
+---
+import fetchApi from "../lib/strapi";
+import type Beer from "../interfaces/beers";
+import type Brewery from "../interfaces/breweries";
+
+const fetchAllBeers = async () => {
+  const pageSize = 25;
+  let page = 1;
+  let allBeers = [];
+
+  let fetchMore = true;
+  while (fetchMore) {
+    const beersPage = await fetchApi<Beer[]>({
+      endpoint: `beers?populate=*&pagination[page]=${page}&pagination[pageSize]=${pageSize}`,
+      wrappedByKey: "data",
+    });
+
+    allBeers = [...allBeers, ...beersPage];
+
+    if (beersPage.length < pageSize) {
+      fetchMore = false;
+    } else {
+      page++;
+    }
+  }
+
+  return allBeers;
+};
+
+const breweries = await fetchApi<Brewery[]>({
+  endpoint: "brewery?populate=*",
+  wrappedByKey: "data",
+});
+
+const beers = await fetchAllBeers();
+
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Strapi & Astro</title>
+  </head>
+  <body>
+    <main>
+      <ul>
+        {beers.map((beer) => (
+          <li>
+            <ul>
+              <li>
+                <a href={`/beer/${beer.id}/`}>
+                  <h2>{beer.Name}</h2>
+                </a>
+              </li>
+              <li>{beer.ABV}</li>
+              <li>{beer.Style}</li>
+              <li>{beer.My_score}</li>
+              <li>{beer.Average_score}</li>
+              <li>{beer.Date_tasted}</li>
+              <li>
+                {beer.Logo != null ? (
+                  <img
+                    src={`${import.meta.env.STRAPI_URL}${beer.Logo.url}`}
+                    alt={`${beer.Name} logo`}
+                  />
+                ) : (
+                  <span>Logo not available</span>
+                )}
+              </li>
+              <li>
+                {beer.Brewery ? (
+                  beer.Brewery.Name
+                ) : (
+                  <span>Brewery not available</span>
+                )}
+              </li>
+            </ul>
+          </li>
+        ))}
+      </ul>
+    </main>
+  </body>
+</html>

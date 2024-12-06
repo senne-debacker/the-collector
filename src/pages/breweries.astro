@@ -1,0 +1,75 @@
+---
+import fetchApi from "../lib/strapi";
+import type Brewery from "../interfaces/breweries";
+
+const fetchAllBreweries = async () => {
+    const pageSize = 25;
+    let page = 1;
+    let allBreweries = [];
+
+    let fetchMore = true;
+    while (fetchMore) {
+        const breweriesPage = await fetchApi<Brewery[]>({
+            endpoint: `breweries?populate=*&pagination[page]=${page}&pagination[pageSize]=${pageSize}`,
+            wrappedByKey: "data",
+        });
+
+        allBreweries = [...allBreweries, ...breweriesPage];
+
+        if (breweriesPage.length < pageSize) {
+            fetchMore = false;
+        } else {
+            page++;
+        }
+    }
+
+    return allBreweries;
+};
+
+const breweries = await fetchAllBreweries();
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>Breweries - The Collector</title>
+    </head>
+    <body>
+        <main>
+            <h1>Explore Breweries</h1>
+            <ul>
+                {
+                    breweries.map((brewery) => (
+                        <li>
+                            <ul>
+                                <li>
+                                    <a href={`/brewery/${brewery.id}/`}>
+                                        <h2>{brewery.Name}</h2>
+                                    </a>
+                                </li>
+                                <li>{brewery.Location}</li>
+                                <li>
+                                    {brewery.Description != null ? (
+                                        brewery.Description
+                                    ) : (
+                                        <span>Description not available</span>
+                                    )}
+                                </li>
+                                <li>
+                                    {brewery.Logo != null ? (
+                                        <img
+                                            src={`${import.meta.env.STRAPI_URL}${brewery.Logo.url}`}
+                                            alt={`${brewery.Name} logo`}
+                                        />
+                                    ) : (
+                                        <span>Logo not available</span>
+                                    )}
+                                </li>
+                            </ul>
+                        </li>
+                    ))
+                }
+            </ul>
+        </main>
+    </body>
+</html>
