@@ -33,50 +33,19 @@ const breweries = await fetchApi<Brewery[]>({
 });
 
 const beers = await fetchAllBeers();
-
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
     <title>Strapi & Astro</title>
+    <meta charset="UTF-8">
   </head>
   <body>
     <main>
       <ul>
-        {beers.map((beer) => (
-          <li>
-            <ul>
-              <li>
-                <a href={`/beer/${beer.id}/`}>
-                  <h2>{beer.Name}</h2>
-                </a>
-              </li>
-              <li>{beer.ABV}</li>
-              <li>{beer.Style}</li>
-              <li>{beer.My_score}</li>
-              <li>{beer.Average_score}</li>
-              <li>{beer.Date_tasted}</li>
-              <li>
-                {beer.Logo != null ? (
-                  <img
-                    src={`${import.meta.env.STRAPI_URL}${beer.Logo.url}`}
-                    alt={`${beer.Name} logo`}
-                  />
-                ) : (
-                  <span>Logo not available</span>
-                )}
-              </li>
-              <li>
-                {beer.Brewery ? (
-                  beer.Brewery.Name
-                ) : (
-                  <span>Brewery not available</span>
-                )}
-              </li>
-            </ul>
-          </li>
-        ))}
+        <li><a href="./beers">Beers</a></li>
+        <li><a href="./breweries">Breweries</a></li>
       </ul>
     </main>
   </body>

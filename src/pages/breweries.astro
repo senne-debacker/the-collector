@@ -27,13 +27,13 @@ const fetchAllBreweriesWithBeers = async () => {
 };
 
 const breweries = await fetchAllBreweriesWithBeers();
-console.log(breweries);
 ---
 
 <!doctype html>
 <html lang="en">
     <head>
         <title>Breweries - The Collector</title>
+        <meta charset="UTF-8">
     </head>
     <body>
         <main>
@@ -44,7 +44,7 @@ console.log(breweries);
                         <li key={brewery.id}>
                             <ul>
                                 <li>
-                                    <a href={`/brewery/${brewery.id}/`}>
+                                    <a href={`/breweries/${brewery.Name}/`}>
                                         <h2>{brewery.Name}</h2>
                                     </a>
                                 </li>
@@ -63,7 +63,7 @@ console.log(breweries);
                                             alt={`${brewery.Name} logo`}
                                         />
                                     ) : (
-                                        <span>Logo not available {console.log(brewery.Logo)}</span>
+                                        <span>Logo not available</span>
                                     )}
                                 </li>
                                 <li>
@@ -73,7 +73,7 @@ console.log(breweries);
                                             brewery.Beers.map((beer) => (
                                                 <li key={beer.id}>
                                                     <a
-                                                        href={`/beer/${beer.id}/`}
+                                                        href={`/beers/${beer.Name}/`}
                                                     >
                                                         {beer.Name}
                                                     </a>

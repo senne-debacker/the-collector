@@ -2,7 +2,6 @@ interface Props {
     endpoint: string;
     query?: Record<string, string>;
     wrappedByKey?: string;
-    wrappedByList?: boolean;
     pagination?: boolean; 
 }
 
@@ -10,7 +9,6 @@ export default async function fetchApi<T>({
     endpoint,
     query,
     wrappedByKey,
-    wrappedByList,
     pagination = false,
 }: Props): Promise<T> {
     if (endpoint.startsWith("/")) {

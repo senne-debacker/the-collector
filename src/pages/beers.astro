@@ -40,6 +40,7 @@ const beers = await fetchAllBeers();
 <html lang="en">
   <head>
     <title>Strapi & Astro</title>
+    <meta charset="UTF-8">
   </head>
   <body>
     <main>
@@ -48,7 +49,7 @@ const beers = await fetchAllBeers();
           <li>
             <ul>
               <li>
-                <a href={`/beer/${beer.id}/`}>
+                <a href={`/beers/${beer.Name}/`}>
                   <h2>{beer.Name}</h2>
                 </a>
               </li>
@@ -68,6 +69,7 @@ const beers = await fetchAllBeers();
                 )}
               </li>
               <li>
+                <a href={`/breweries/${beer.brewery}/`}></a>
                 {beer.Brewery ? (
                   beer.Brewery.Name
                 ) : (

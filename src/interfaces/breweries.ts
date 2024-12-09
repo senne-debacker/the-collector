@@ -1,3 +1,5 @@
+import Beer from './beers';
+
 export default interface Brewery {
     id: number;
     documentId: string;
@@ -10,7 +12,7 @@ export default interface Brewery {
     publishedAt: string;
 
     Description: string;
-    Beers: object;
+    Beers: Beer[];
 
     Logo: Array<{
         id: number;
@@ -33,5 +35,4 @@ export default interface Brewery {
         updatedAt: string;
         publishedAt: string;
       }>;
-  }
-  
+}
