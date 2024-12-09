@@ -2,7 +2,7 @@
 import fetchApi from "../lib/strapi";
 import type Brewery from "../interfaces/breweries";
 
-const fetchAllBreweries = async () => {
+const fetchAllBreweriesWithBeers = async () => {
     const pageSize = 25;
     let page = 1;
     let allBreweries = [];
@@ -26,7 +26,8 @@ const fetchAllBreweries = async () => {
     return allBreweries;
 };
 
-const breweries = await fetchAllBreweries();
+const breweries = await fetchAllBreweriesWithBeers();
+console.log(breweries);
 ---
 
 <!doctype html>
@@ -40,7 +41,7 @@ const breweries = await fetchAllBreweries();
             <ul>
                 {
                     breweries.map((brewery) => (
-                        <li>
+                        <li key={brewery.id}>
                             <ul>
                                 <li>
                                     <a href={`/brewery/${brewery.id}/`}>
@@ -62,8 +63,26 @@ const breweries = await fetchAllBreweries();
                                             alt={`${brewery.Name} logo`}
                                         />
                                     ) : (
-                                        <span>Logo not available</span>
+                                        <span>Logo not available {console.log(brewery.Logo)}</span>
                                     )}
+                                </li>
+                                <li>
+                                    <h3>Beers Produced</h3>
+                                    <ul>
+                                        {brewery.Beers?.length > 0 ? (
+                                            brewery.Beers.map((beer) => (
+                                                <li key={beer.id}>
+                                                    <a
+                                                        href={`/beer/${beer.id}/`}
+                                                    >
+                                                        {beer.Name}
+                                                    </a>
+                                                </li>
+                                            ))
+                                        ) : (
+                                            <li>No beers available</li>
+                                        )}
+                                    </ul>
                                 </li>
                             </ul>
                         </li>
