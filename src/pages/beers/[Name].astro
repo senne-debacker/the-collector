@@ -2,6 +2,10 @@
 import fetchApi from "../../lib/strapi";
 import type Beer from "../../interfaces/beers";
 
+import "../../styles/global.css";
+
+import Header from "./../../components/Header.astro"
+
 export async function getStaticPaths() {
   const pageSize = 25;
   let page = 1;
@@ -37,47 +41,45 @@ const beer = Astro.props;
 <!doctype html>
 <html lang="en">
   <head>
-    <title>{beer.Name}</title>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyBeers - {beer.Name}</title>
   </head>
 
   <body>
-    <main>
-      <li>
-        <ul>
-          <li>
-            <a href={`/beers/${beer.Name}/`}>
-              <h2>{beer.Name}</h2>
-            </a>
-          </li>
-          <li>{beer.ABV}</li>
-          <li>{beer.Style}</li>
-          <li>{beer.My_score}</li>
-          <li>{beer.Average_score}</li>
-          <li>{beer.Date_tasted}</li>
-          <li>
-            {
-              beer.Logo != null ? (
-                <img
-                  src={`${import.meta.env.STRAPI_URL}${beer.Logo.url}`}
-                  alt={`${beer.Name} logo`}
-                />
-              ) : (
-                <span>Logo not available</span>
-              )
-            }
-          </li>
-          <li>
-            {
-              beer.Brewery ? (
-              <a href={`/breweries/${beer.Brewery.Name}/`}>{beer.Brewery.Name}</a>
-              ) : (
-                <span>Brewery not available</span>
-              )
-            }
-          </li>
-        </ul>
-      </li>
-    </main>
+    <Header />
+    <div class="layout">
+      <main class="content">
+        <section class="beer-details">
+          <h1 class="beer-name">{beer.Name}</h1>
+          <div class="beer-meta">
+            <p><strong>ABV:</strong> {beer.ABV}%</p>
+            <p><strong>Style:</strong> {beer.Style}</p>
+            <p><strong>My Score:</strong> {beer.My_score}</p>
+            <p><strong>Average Score:</strong> {beer.Average_score}</p>
+            <p><strong>Date Tasted:</strong> {beer.Date_tasted}</p>
+          </div>
+
+          <div class="beer-logo">
+            {beer.Logo != null ? (
+              <img
+                src={`${import.meta.env.STRAPI_URL}${beer.Logo.url}`}
+                alt={`${beer.Name} logo`}
+              />
+            ) : (
+              <span>Logo not available</span>
+            )}
+          </div>
+
+          <div class="brewery-info">
+            {beer.Brewery ? (
+              <a href={`/breweries/${beer.Brewery.Name}/`} class="brewery-link">{beer.Brewery.Name}</a>
+            ) : (
+              <span>Brewery not available</span>
+            )}
+          </div>
+        </section>
+      </main>
+    </div>
   </body>
 </html>

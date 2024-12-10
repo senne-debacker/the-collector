@@ -1,6 +1,10 @@
 ---
 import fetchApi from "../../lib/strapi";
-import type Beer from "../../interfaces/breweries";
+import type Brewery from "../../interfaces/breweries";
+
+import "../../styles/global.css";
+
+import Header from "./../../components/Header.astro"
 
 export async function getStaticPaths() {
     const pageSize = 25;
@@ -34,64 +38,54 @@ type Props = Brewery;
 const brewery = Astro.props;
 ---
 
-<!doctype html>
 <html lang="en">
-    <head>
-        <title>{brewery.Name}</title>
-        <meta charset="UTF-8">
-    </head>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyBeers - {brewery.Name}</title>
+  </head>
 
-    <body>
-        <main>
+  <body>
+    <Header />
+    <div class="layout">
+      <main class="content">
+        <section class="brewery-details">
+          <h1 class="brewery-title">{brewery.Name}</h1>
+          <div class="brewery-meta">
+            <p><strong>Location:</strong> {brewery.Location}</p>
+            <p><strong>Description:</strong> 
+              {brewery.Description != null ? brewery.Description : <span>Description not available</span>}
+            </p>
+          </div>
+
+          <div class="brewery-logo">
+            {brewery.Logo != null ? (
+              <img
+                src={`${import.meta.env.STRAPI_URL}${brewery.Logo.url}`}
+                alt={`${brewery.Name} logo`}
+              />
+            ) : (
+              <span>Logo not available</span>
+            )}
+          </div>
+
+          <div class="brewery-beers">
+            <h3>Beers Produced</h3>
             <ul>
-                <li key={brewery.id}>
-                    <a href={`/breweries/${brewery.Name}/`}>
-                        <h2>{brewery.Name}</h2>
-                    </a>
-                </li>
-                <li>{brewery.Location}</li>
-                <li>
-                    {
-                        brewery.Description != null ? (
-                            brewery.Description
-                        ) : (
-                            <span>Description not available</span>
-                        )
-                    }
-                </li>
-                <li>
-                    {
-                        brewery.Logo != null ? (
-                            <img
-                                src={`${import.meta.env.STRAPI_URL}${brewery.Logo.url}`}
-                                alt={`${brewery.Name} logo`}
-                            />
-                        ) : (
-                            <span>
-                                Logo not available
-                            </span>
-                        )
-                    }
-                </li>
-                <li>
-                    <h3>Beers Produced</h3>
-                    <ul>
-                        {
-                            brewery.Beers?.length > 0 ? (
-                                brewery.Beers.map((beer) => (
-                                    <li key={beer.id}>
-                                        <a href={`/beers/${beer.Name}/`}>
-                                            {beer.Name}
-                                        </a>
-                                    </li>
-                                ))
-                            ) : (
-                                <li>No beers available</li>
-                            )
-                        }
-                    </ul>
-                </li>
+              {brewery.Beers?.length > 0 ? (
+                brewery.Beers.map((beer) => (
+                  <li key={beer.id}>
+                    <a href={`/beers/${beer.Name}/`} class="beer-link">{beer.Name}</a>
+                  </li>
+                ))
+              ) : (
+                <li>No beers available</li>
+              )}
             </ul>
-        </main>
-    </body>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
 </html>
+

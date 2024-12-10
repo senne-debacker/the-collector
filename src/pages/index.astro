@@ -3,6 +3,8 @@ import fetchApi from "../lib/strapi";
 import type Beer from "../interfaces/beers";
 import type Brewery from "../interfaces/breweries";
 
+import Header from "./../components/Header.astro"
+
 const fetchAllBeers = async () => {
   const pageSize = 25;
   let page = 1;
@@ -38,15 +40,14 @@ const beers = await fetchAllBeers();
 <!doctype html>
 <html lang="en">
   <head>
-    <title>Strapi & Astro</title>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyBeers</title>
   </head>
   <body>
+    <Header />
     <main>
-      <ul>
-        <li><a href="./beers">Beers</a></li>
-        <li><a href="./breweries">Breweries</a></li>
-      </ul>
+
     </main>
   </body>
 </html>
