@@ -1,7 +1,6 @@
 ---
 import fetchApi from "../lib/strapi";
-
-import Header from "./../components/Header.astro"
+import Header from "../components/Header.astro";
 
 const fetchAllBeers = async () => {
   const pageSize = 25;
@@ -27,25 +26,53 @@ const fetchAllBeers = async () => {
   return allBeers;
 };
 
-const breweries = await fetchApi<Brewery[]>({
-  endpoint: "brewery?populate=*",
-  wrappedByKey: "data",
-});
-
 const beers = await fetchAllBeers();
+
+const randomBeer = beers[Math.floor(Math.random() * beers.length)];
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MyBeers</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MyBeers - Random Beer</title>
   </head>
   <body>
     <Header />
-    <main>
 
+    <main>
+      <div class="random-beer">
+        <h1>Today's Random Beer</h1>
+
+        <div class="beer-card" data-name={randomBeer.Name}>
+          <a href={`/beers/${randomBeer.Name}/`} class="beer-link">
+            <h2 class="beer-name">{randomBeer.Name}</h2>
+          </a>
+          <div class="beer-brewery">
+            {randomBeer.Brewery ? (
+              <a href={`/breweries/${randomBeer.Brewery.Name}/`} class="brewery-link">
+                {randomBeer.Brewery.Name}
+              </a>
+            ) : (
+              <span>Brewery not available</span>
+            )}
+          </div>
+          <div class="beer-logo">
+            {randomBeer.Logo != null ? (
+              <img src={`${import.meta.env.STRAPI_URL}${randomBeer.Logo.url}`} alt={`${randomBeer.Name} logo`} />
+            ) : (
+              <span>Logo not available</span>
+            )}
+          </div>
+          <p class="beer-style">
+            <strong>Style:</strong> {randomBeer.Style}
+          </p>
+          <p class="beer-score">
+            <strong>Average Score:</strong> {randomBeer.Average_score}
+          </p>
+        </div>
+      </div>
     </main>
   </body>
 </html>

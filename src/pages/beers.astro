@@ -1,7 +1,6 @@
 ---
 import fetchApi from "../lib/strapi";
 
-
 import "../styles/global.css";
 import "../styles/beersstyles.css";
 
@@ -32,6 +31,10 @@ const fetchAllBeers = async () => {
 };
 
 const beers = await fetchAllBeers();
+const uniqueBreweries = [...new Set(beers.map((beer) => beer.Brewery?.Name).filter(Boolean))];
+const uniqueStyles = [...new Set(beers.map((beer) => beer.Style).filter(Boolean))];
+const minScore = Math.min(...beers.map((beer) => beer.Average_score));
+const maxScore = Math.max(...beers.map((beer) => beer.Average_score));
 ---
 
 <!doctype html>
@@ -40,11 +43,25 @@ const beers = await fetchAllBeers();
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MyBeers - Beers</title>
+    <script src="/src/scripts/beersFilter.js">
+    </script>
   </head>
   <body>
     <Header />
     <main>
       <div class="filter-sort">
+        <label for="brewery-filter">Filter by Brewery:</label>
+        <input id="brewery-filter" type="text" placeholder="Enter brewery name" />
+
+        <label for="style-filter">Filter by Style:</label>
+        <input id="style-filter" type="text" placeholder="Enter beer style" />
+
+        <label for="min-score-filter">Min Score:</label>
+        <input id="min-score-filter" type="number" min="${minScore}" max="${maxScore}" step="0.1" />
+
+        <label for="max-score-filter">Max Score:</label>
+        <input id="max-score-filter" type="number" min="${minScore}" max="${maxScore}" step="0.1" />
+
         <label for="sort-select">Sort By:</label>
         <select id="sort-select" name="sort">
           <option value="name">Name (A-Z)</option>
@@ -60,7 +77,13 @@ const beers = await fetchAllBeers();
         <ul>
           {
             beers.map((beer) => (
-              <li class="beer-card" data-name={beer.Name} data-brewery={beer.Brewery.Name} data-score={beer.Average_score}>
+              <li
+                class="beer-card"
+                data-name={beer.Name}
+                data-brewery={beer.Brewery?.Name}
+                data-style={beer.Style}
+                data-score={beer.Average_score}
+              >
                 <a href={`/beers/${beer.Name}/`} class="beer-link">
                   <h2 class="beer-name">{beer.Name}</h2>
                 </a>
@@ -92,6 +115,5 @@ const beers = await fetchAllBeers();
         </ul>
       </div>
     </main>
-    <script type="module" src="src/scripts/beerSortingLogic.js"></script>
   </body>
 </html>

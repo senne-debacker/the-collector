@@ -1,7 +1,7 @@
 ---
 import fetchApi from "../lib/strapi";
 
-import Header from "./../components/Header.astro"
+import Header from "./../components/Header.astro";
 
 const fetchAllBreweriesWithBeers = async () => {
     const pageSize = 25;
@@ -28,23 +28,51 @@ const fetchAllBreweriesWithBeers = async () => {
 };
 
 const breweries = await fetchAllBreweriesWithBeers();
+const uniqueLocations = [
+    ...new Set(breweries.map((brewery) => brewery.Location)),
+];
 ---
 
 <!doctype html>
 <html lang="en">
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>MyBeers - Breweries</title>
-      </head>
+        <script src="./../scripts/breweriesFilter.js"></script>
+    </head>
     <body>
         <Header />
         <main>
-            <h1>Explore Breweries</h1>
-            <ul>
+            <section>
+                <label for="sortOrder">Sort by Name:</label>
+                <select id="sortOrder">
+                    <option value="az">A-Z</option>
+                    <option value="za">Z-A</option>
+                </select>
+
+                <label for="locationFilter">Filter by Location:</label>
+                <select id="locationFilter">
+                    <option value="">All Locations</option>
+                    {
+                        uniqueLocations.map((location) => (
+                            <option key={location} value={location}>
+                                {location}
+                            </option>
+                        ))
+                    }
+                </select>
+            </section>
+
+            <ul id="breweriesList">
                 {
                     breweries.map((brewery) => (
-                        <li key={brewery.id}>
+                        <li
+                            class="brewery-item"
+                            data-location={brewery.Location}
+                            data-name={brewery.Name}
+                            key={brewery.id}
+                        >
                             <ul>
                                 <li>
                                     <a href={`/breweries/${brewery.Name}/`}>
