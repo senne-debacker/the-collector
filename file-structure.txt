@@ -2,15 +2,11 @@ the-collector
 .
 + - src
 .     .
-.     + assets
+.     + - assets
 .     .     .
 .     .     + - fonts
 .     .     .
 .     .     + - media
-.     .
-.     + components
-.     .     .
-.     .     + - Header.astro
 .     .
 .     + - components
 .     .     .
@@ -30,17 +26,23 @@ the-collector
 .     .     .
 .     .     + - beers
 .     .     .     .
-.     .     .     + [Name].astro
+.     .     .     + - [Name].astro
 .     .     .
 .     .     + - breweries
 .     .     .     .
-.     .     .     + [Name].astro
+.     .     .     + - [Name].astro
 .     .     .
 .     .     + - beers.astro
 .     .     .
 .     .     + - breweries.astro
 .     .     .
 .     .     + - index.astro
+.     .
+.     + - scripts
+.     .     .
+.     .     + - beersFilter.js
+.     .     .
+.     .     + - breweriesFilter.js
 .     .
 .     + - styles
 .     .     .

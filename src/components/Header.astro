@@ -1,13 +1,95 @@
----
-
----
-
 <header>
     <nav>
         <ul>
-            <li><a href="/">MyBeers</a></li>
-            <li><a href="../../beers">Beers</a></li>
-            <li><a href="../../breweries">Breweries</a></li>
+            <li class="home"><a href="/">MyBeers</a></li>
+            <div class="right-links">
+                <li class="beers"><a href="../../beers">Beers</a></li>
+                <li class="breweries"><a href="../../breweries">Breweries</a></li>
+            </div>
         </ul>
     </nav>
 </header>
+
+<style>
+    /* General Styling for the Header */
+    header {
+        background-color: #fec000;
+        padding: 1rem 2rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    nav ul {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 2rem;
+        align-items: center;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    /* Styling for the Links */
+    nav a {
+        font-size: 1.1rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        color: #333;
+        text-decoration: none;
+        padding: 0.5rem;
+        border-radius: 4px;
+        transition: color 0.3s ease, background-color 0.3s ease;
+    }
+
+    /* Hover Effect on Links */
+    nav a:hover {
+        background-color: #333;
+        color: #fff;
+    }
+
+    /* Specific Styling for 'MyBeers' */
+    .home a {
+        font-size: 1.3rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        color: #333;
+    }
+
+    /* Optional: Styling for Active Link */
+    .home a.active,
+    .beers a.active,
+    .breweries a.active {
+        color: #fff;
+        background-color: #007BFF;
+    }
+
+    /* Grid Styling for Right Links */
+    .right-links {
+        display: grid;
+        grid-auto-flow: column;
+        justify-self: end;
+        gap: 2rem;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        header {
+            padding: 1rem;
+        }
+
+        nav ul {
+            grid-template-columns: 1fr; /* Stacks the links on smaller screens */
+            gap: 1rem;
+            text-align: center;
+        }
+
+        .right-links {
+            justify-self: center;
+            grid-auto-flow: row;
+            gap: 1rem;
+        }
+
+        nav a {
+            font-size: 1rem;
+        }
+    }
+</style>

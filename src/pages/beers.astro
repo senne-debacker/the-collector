@@ -2,9 +2,9 @@
 import fetchApi from "../lib/strapi";
 
 import "../styles/global.css";
-import "../styles/beersstyles.css";
 
 import Header from "./../components/Header.astro";
+import BeerFilter from "./../components/BeerFilter.astro";
 
 const fetchAllBeers = async () => {
   const pageSize = 25;
@@ -49,29 +49,7 @@ const maxScore = Math.max(...beers.map((beer) => beer.Average_score));
   <body>
     <Header />
     <main>
-      <div class="filter-sort">
-        <label for="brewery-filter">Filter by Brewery:</label>
-        <input id="brewery-filter" type="text" placeholder="Enter brewery name" />
-
-        <label for="style-filter">Filter by Style:</label>
-        <input id="style-filter" type="text" placeholder="Enter beer style" />
-
-        <label for="min-score-filter">Min Score:</label>
-        <input id="min-score-filter" type="number" min="${minScore}" max="${maxScore}" step="0.1" />
-
-        <label for="max-score-filter">Max Score:</label>
-        <input id="max-score-filter" type="number" min="${minScore}" max="${maxScore}" step="0.1" />
-
-        <label for="sort-select">Sort By:</label>
-        <select id="sort-select" name="sort">
-          <option value="name">Name (A-Z)</option>
-          <option value="name_">Name (Z-A)</option>
-          <option value="brewery">Brewery (A-Z)</option>
-          <option value="brewery_">Brewery (Z-A)</option>
-          <option value="score">Score (Ascending)</option>
-          <option value="score_">Score (Descending)</option>
-        </select>
-      </div>
+      <BeerFilter />
 
       <div id="beer-list" class="beer-list">
         <ul>
@@ -117,3 +95,123 @@ const maxScore = Math.max(...beers.map((beer) => beer.Average_score));
     </main>
   </body>
 </html>
+
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+header {
+    background-color: #fec000;
+    padding: 1rem 0;
+}
+
+/* Beer Filter Section */
+#beer-filter {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    margin: 1rem 0;
+}
+
+#beer-filter label {
+    font-weight: bold;
+}
+
+#beer-filter select {
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    width: 250px;
+    font-size: 1rem;
+}
+
+/* Beer List Section */
+.beer-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+    padding: 2rem;
+}
+
+/* Beer Card Styling */
+.beer-card {
+    background-color: #fff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 300px; /* Fixed width for consistency */
+    transition: transform 0.3s ease;
+    text-align: center;
+}
+
+.beer-card:hover {
+    transform: translateY(-10px);
+}
+
+/* Beer Name */
+.beer-name {
+    font-size: 1.5rem;
+    color: #333;
+    margin: 0;
+    font-weight: bold;
+}
+
+/* Brewery Link */
+.beer-brewery {
+    margin-top: 1rem;
+    font-size: 1.1rem;
+}
+
+.brewery-link {
+    text-decoration: none;
+    color: #fec000;
+}
+
+/* Beer Style */
+.beer-style {
+    margin-top: 1rem;
+    font-size: 1.1rem;
+    color: #666;
+}
+
+/* Average Score */
+.beer-score {
+    margin-top: 1rem;
+    font-size: 1.1rem;
+    color: #666;
+}
+
+/* Beer Logo */
+.beer-logo img {
+    max-width: 120px;
+    height: auto;
+    display: block;
+    margin: 1rem auto;
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 768px) {
+    #beer-filter {
+        flex-direction: column;
+        padding: 1rem;
+    }
+
+    #beer-filter select {
+        width: 100%;
+    }
+
+    .beer-card {
+        width: 100%;
+        max-width: 350px; /* Adjust width on smaller screens */
+    }
+}
+
+</style>

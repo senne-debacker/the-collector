@@ -1,45 +1,52 @@
-            document.addEventListener("DOMContentLoaded", () => {
-                const filterSelect = document.getElementById("locationFilter");
-                const sortSelect = document.getElementById("sortOrder");
-                const breweryList = document.getElementById("breweriesList");
-                let breweryItems = Array.from(document.querySelectorAll(".brewery-item"));
+    // Wait until the DOM is loaded before adding event listeners
+    document.addEventListener('DOMContentLoaded', function () {
+        const sortSelect = document.getElementById("sortOrder");
+        const locationSelect = document.getElementById("locationFilter");
+        const breweryList = document.getElementById("breweriesList");
+        const allBreweries = Array.from(breweryList.children); // Get all the brewery cards
 
-                function filterBreweries() {
-                    const selectedLocation = filterSelect.value;
-
-                    breweryItems.forEach((item) => {
-                        const location = item.getAttribute("data-location");
-                        if (!selectedLocation || location === selectedLocation) {
-                            item.style.display = "";
-                        } else {
-                            item.style.display = "none";
-                        }
-                    });
-                }
-
-                function sortBreweries() {
-                    const sortOrder = sortSelect.value;
-                    const visibleItems = breweryItems.filter(item => item.style.display !== "none");
-
-                    visibleItems.sort((a, b) => {
-                        const nameA = a.getAttribute("data-name").toLowerCase();
-                        const nameB = b.getAttribute("data-name").toLowerCase();
-
-                        if (sortOrder === "az") {
-                            return nameA.localeCompare(nameB);
-                        } else if (sortOrder === "za") {
-                            return nameB.localeCompare(nameA);
-                        }
-                        return 0;
-                    });
-
-                    visibleItems.forEach(item => breweryList.appendChild(item));
-                }
-
-                filterSelect.addEventListener("change", () => {
-                    filterBreweries();
-                    sortBreweries();
+        // Function to sort breweries
+        function sortBreweries(order) {
+            let sortedBreweries;
+            if (order === 'az') {
+                sortedBreweries = allBreweries.sort((a, b) => {
+                    const nameA = a.querySelector(".brewery-name").textContent;
+                    const nameB = b.querySelector(".brewery-name").textContent;
+                    return nameA.localeCompare(nameB);
                 });
+            } else if (order === 'za') {
+                sortedBreweries = allBreweries.sort((a, b) => {
+                    const nameA = a.querySelector(".brewery-name").textContent;
+                    const nameB = b.querySelector(".brewery-name").textContent;
+                    return nameB.localeCompare(nameA);
+                });
+            }
+            // Remove all the existing cards and append sorted ones
+            breweryList.innerHTML = '';
+            sortedBreweries.forEach(brewery => breweryList.appendChild(brewery));
+        }
 
-                sortSelect.addEventListener("change", sortBreweries);
+        // Function to filter breweries by location
+        function filterBreweries(location) {
+            allBreweries.forEach(brewery => {
+                const breweryLocation = brewery.getAttribute('data-location');
+                if (location === "" || breweryLocation === location) {
+                    brewery.style.display = "block"; // Show the brewery
+                } else {
+                    brewery.style.display = "none"; // Hide the brewery
+                }
             });
+        }
+
+        // Event listener for sorting
+        sortSelect.addEventListener("change", (e) => {
+            const sortOrder = e.target.value;
+            sortBreweries(sortOrder); // Call the sort function
+        });
+
+        // Event listener for location filtering
+        locationSelect.addEventListener("change", (e) => {
+            const selectedLocation = e.target.value;
+            filterBreweries(selectedLocation); // Call the filter function
+        });
+    });

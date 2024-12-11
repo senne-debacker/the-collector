@@ -1,0 +1,23 @@
+---
+
+---
+
+<section class="filter-section">
+    <label for="sortOrder">Sort by Name:</label>
+    <select id="sortOrder">
+        <option value="az">A-Z</option>
+        <option value="za">Z-A</option>
+    </select>
+
+    <label for="locationFilter">Filter by Location:</label>
+    <select id="locationFilter">
+        <option value="">All Locations</option>
+        {
+            uniqueLocations.map((location) => (
+                <option key={location} value={location}>
+                    {location}
+                </option>
+            ))
+        }
+    </select>
+</section>
