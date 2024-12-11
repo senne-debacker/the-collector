@@ -3,6 +3,11 @@ import fetchApi from "../lib/strapi";
 import type Beer from "../interfaces/beers";
 import type Brewery from "../interfaces/breweries";
 
+import "../styles/global.css";
+import "../styles/beersstyles.css";
+
+import Header from "./../components/Header.astro";
+
 const fetchAllBeers = async () => {
   const pageSize = 25;
   let page = 1;
@@ -33,32 +38,39 @@ const breweries = await fetchApi<Brewery[]>({
 });
 
 const beers = await fetchAllBeers();
-
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
-    <title>Strapi & Astro</title>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MyBeers - Beers</title>
   </head>
   <body>
+    <Header />
     <main>
-      <ul>
-        {beers.map((beer) => (
-          <li>
-            <ul>
-              <li>
-                <a href={`/beers/${beer.Name}/`}>
-                  <h2>{beer.Name}</h2>
-                </a>
-              </li>
-              <li>{beer.ABV}</li>
-              <li>{beer.Style}</li>
-              <li>{beer.My_score}</li>
-              <li>{beer.Average_score}</li>
-              <li>{beer.Date_tasted}</li>
-              <li>
+      <div class="beer-list">
+        <ul>
+        {
+          beers.map((beer) => (
+            <li class="beer-card">
+              <a href={`/beers/${beer.Name}/`} class="beer-link">
+                <h2 class="beer-name">{beer.Name}</h2>
+              </a>
+              <div class="beer-brewery">
+                {beer.Brewery ? (
+                  <a
+                    href={`/breweries/${beer.Brewery.Name}/`}
+                    class="brewery-link"
+                  >
+                    {beer.Brewery.Name}
+                  </a>
+                ) : (
+                  <span>Brewery not available</span>
+                )}
+              </div>
+              <div class="beer-logo">
                 {beer.Logo != null ? (
                   <img
                     src={`${import.meta.env.STRAPI_URL}${beer.Logo.url}`}
@@ -67,19 +79,18 @@ const beers = await fetchAllBeers();
                 ) : (
                   <span>Logo not available</span>
                 )}
-              </li>
-              <li>
-                <a href={`/breweries/${beer.brewery}/`}></a>
-                {beer.Brewery ? (
-                  beer.Brewery.Name
-                ) : (
-                  <span>Brewery not available</span>
-                )}
-              </li>
-            </ul>
-          </li>
-        ))}
+              </div>
+              <p class="beer-style">
+                <strong>Style:</strong> {beer.Style}
+              </p>
+              <p class="beer-score">
+                <strong>Average Score:</strong> {beer.Average_score}
+              </p>
+            </li>
+          ))
+        }
       </ul>
+    </div>
     </main>
   </body>
 </html>

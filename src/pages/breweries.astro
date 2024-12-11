@@ -2,6 +2,8 @@
 import fetchApi from "../lib/strapi";
 import type Brewery from "../interfaces/breweries";
 
+import Header from "./../components/Header.astro"
+
 const fetchAllBreweriesWithBeers = async () => {
     const pageSize = 25;
     let page = 1;
@@ -32,10 +34,12 @@ const breweries = await fetchAllBreweriesWithBeers();
 <!doctype html>
 <html lang="en">
     <head>
-        <title>Breweries - The Collector</title>
         <meta charset="UTF-8">
-    </head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>MyBeers - Breweries</title>
+      </head>
     <body>
+        <Header />
         <main>
             <h1>Explore Breweries</h1>
             <ul>

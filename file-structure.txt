@@ -1,0 +1,47 @@
+the-collector
+.
++ - src
+.     .
+.     + assets
+.     .     .
+.     .     + - fonts
+.     .     .
+.     .     + - media
+.     .
+.     + components
+.     .     .
+.     .     + - Header.astro
+.     .     .
+.     .     + - Navigation.astro
+.     .
+.     + - components
+.     .     .
+.     .     + - Header.astro
+.     .
+.     + - interfaces
+.     .     .
+.     .     + - beers.ts
+.     .     .
+.     .     + - breweries.ts
+.     .
+.     + - lib
+.     .     .
+.     .     + - strapi.ts
+.     .
+.     + - pages
+.           .
+.           + - beers
+.           .     .
+.           .     + [Name].astro
+.           .
+.           + - breweries
+.           .     .
+.           .     + [Name].astro
+.           .
+.           + - beers.astro
+.           .
+.           + - breweries.astro
+.           .
+.           + - index.astro
+.
++ - .env
