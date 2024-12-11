@@ -11,8 +11,6 @@ the-collector
 .     + components
 .     .     .
 .     .     + - Header.astro
-.     .     .
-.     .     + - Navigation.astro
 .     .
 .     + - components
 .     .     .
@@ -29,19 +27,23 @@ the-collector
 .     .     + - strapi.ts
 .     .
 .     + - pages
-.           .
-.           + - beers
-.           .     .
-.           .     + [Name].astro
-.           .
-.           + - breweries
-.           .     .
-.           .     + [Name].astro
-.           .
-.           + - beers.astro
-.           .
-.           + - breweries.astro
-.           .
-.           + - index.astro
+.     .     .
+.     .     + - beers
+.     .     .     .
+.     .     .     + [Name].astro
+.     .     .
+.     .     + - breweries
+.     .     .     .
+.     .     .     + [Name].astro
+.     .     .
+.     .     + - beers.astro
+.     .     .
+.     .     + - breweries.astro
+.     .     .
+.     .     + - index.astro
+.     .
+.     + - styles
+.     .     .
+.     .     + - global.css
 .
 + - .env

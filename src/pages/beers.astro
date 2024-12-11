@@ -1,7 +1,6 @@
 ---
 import fetchApi from "../lib/strapi";
-import type Beer from "../interfaces/beers";
-import type Brewery from "../interfaces/breweries";
+
 
 import "../styles/global.css";
 import "../styles/beersstyles.css";
@@ -32,11 +31,6 @@ const fetchAllBeers = async () => {
   return allBeers;
 };
 
-const breweries = await fetchApi<Brewery[]>({
-  endpoint: "brewery?populate=*",
-  wrappedByKey: "data",
-});
-
 const beers = await fetchAllBeers();
 ---
 
@@ -50,47 +44,54 @@ const beers = await fetchAllBeers();
   <body>
     <Header />
     <main>
-      <div class="beer-list">
+      <div class="filter-sort">
+        <label for="sort-select">Sort By:</label>
+        <select id="sort-select" name="sort">
+          <option value="name">Name (A-Z)</option>
+          <option value="name_">Name (Z-A)</option>
+          <option value="brewery">Brewery (A-Z)</option>
+          <option value="brewery_">Brewery (Z-A)</option>
+          <option value="score">Score (Ascending)</option>
+          <option value="score_">Score (Descending)</option>
+        </select>
+      </div>
+
+      <div id="beer-list" class="beer-list">
         <ul>
-        {
-          beers.map((beer) => (
-            <li class="beer-card">
-              <a href={`/beers/${beer.Name}/`} class="beer-link">
-                <h2 class="beer-name">{beer.Name}</h2>
-              </a>
-              <div class="beer-brewery">
-                {beer.Brewery ? (
-                  <a
-                    href={`/breweries/${beer.Brewery.Name}/`}
-                    class="brewery-link"
-                  >
-                    {beer.Brewery.Name}
-                  </a>
-                ) : (
-                  <span>Brewery not available</span>
-                )}
-              </div>
-              <div class="beer-logo">
-                {beer.Logo != null ? (
-                  <img
-                    src={`${import.meta.env.STRAPI_URL}${beer.Logo.url}`}
-                    alt={`${beer.Name} logo`}
-                  />
-                ) : (
-                  <span>Logo not available</span>
-                )}
-              </div>
-              <p class="beer-style">
-                <strong>Style:</strong> {beer.Style}
-              </p>
-              <p class="beer-score">
-                <strong>Average Score:</strong> {beer.Average_score}
-              </p>
-            </li>
-          ))
-        }
-      </ul>
-    </div>
+          {
+            beers.map((beer) => (
+              <li class="beer-card" data-name={beer.Name} data-brewery={beer.Brewery.Name} data-score={beer.Average_score}>
+                <a href={`/beers/${beer.Name}/`} class="beer-link">
+                  <h2 class="beer-name">{beer.Name}</h2>
+                </a>
+                <div class="beer-brewery">
+                  {beer.Brewery ? (
+                    <a href={`/breweries/${beer.Brewery.Name}/`} class="brewery-link">
+                      {beer.Brewery.Name}
+                    </a>
+                  ) : (
+                    <span>Brewery not available</span>
+                  )}
+                </div>
+                <div class="beer-logo">
+                  {beer.Logo != null ? (
+                    <img src={`${import.meta.env.STRAPI_URL}${beer.Logo.url}`} alt={`${beer.Name} logo`} />
+                  ) : (
+                    <span>Logo not available</span>
+                  )}
+                </div>
+                <p class="beer-style">
+                  <strong>Style:</strong> {beer.Style}
+                </p>
+                <p class="beer-score">
+                  <strong>Average Score:</strong> {beer.Average_score}
+                </p>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
     </main>
+    <script type="module" src="src/scripts/beerSortingLogic.js"></script>
   </body>
 </html>
