@@ -1,217 +1,57 @@
 ---
-import fetchApi from "../lib/strapi";
+import fetchBeers from "../lib/fetchBeers";
+
+import BaseLayout from "./../layouts/BaseLayout.astro";
+import BeerCard from "./../components/BeerCard.astro";
+import BeerFilter from "./../components/BeerFilter.astro";
 
 import "../styles/global.css";
 
-import Header from "./../components/Header.astro";
-import BeerFilter from "./../components/BeerFilter.astro";
-
-const fetchAllBeers = async () => {
-  const pageSize = 25;
-  let page = 1;
-  let allBeers = [];
-
-  let fetchMore = true;
-  while (fetchMore) {
-    const beersPage = await fetchApi<Beer[]>({
-      endpoint: `beers?populate=*&pagination[page]=${page}&pagination[pageSize]=${pageSize}`,
-      wrappedByKey: "data",
-    });
-
-    allBeers = [...allBeers, ...beersPage];
-
-    if (beersPage.length < pageSize) {
-      fetchMore = false;
-    } else {
-      page++;
-    }
-  }
-
-  return allBeers;
-};
-
-const beers = await fetchAllBeers();
-const uniqueBreweries = [...new Set(beers.map((beer) => beer.Brewery?.Name).filter(Boolean))];
-const uniqueStyles = [...new Set(beers.map((beer) => beer.Style).filter(Boolean))];
+const beers = await fetchBeers();
+const uniqueBreweries = [
+  ...new Set(beers.map((beer) => beer.Brewery?.Name).filter(Boolean)),
+];
+const uniqueStyles = [
+  ...new Set(beers.map((beer) => beer.Style).filter(Boolean)),
+];
 const minScore = Math.min(...beers.map((beer) => beer.Average_score));
 const maxScore = Math.max(...beers.map((beer) => beer.Average_score));
+const pageTitle = "Beers";
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MyBeers - Beers</title>
-    <script src="/src/scripts/beersFilter.js">
-    </script>
-  </head>
-  <body>
-    <Header />
-    <main>
-      <BeerFilter />
+<BaseLayout pageTitle={pageTitle}>
+  <main>
+    <BeerFilter />
+    <div id="beer-list" class="beer-list">
+      {beers.map((beer) => <BeerCard beer={beer} key={beer.id} />)}
+    </div>
+  </main>
+</BaseLayout>
 
-      <div id="beer-list" class="beer-list">
-        <ul>
-          {
-            beers.map((beer) => (
-              <li
-                class="beer-card"
-                data-name={beer.Name}
-                data-brewery={beer.Brewery?.Name}
-                data-style={beer.Style}
-                data-score={beer.Average_score}
-              >
-                <a href={`/beers/${beer.Name}/`} class="beer-link">
-                  <h2 class="beer-name">{beer.Name}</h2>
-                </a>
-                <div class="beer-brewery">
-                  {beer.Brewery ? (
-                    <a href={`/breweries/${beer.Brewery.Name}/`} class="brewery-link">
-                      {beer.Brewery.Name}
-                    </a>
-                  ) : (
-                    <span>Brewery not available</span>
-                  )}
-                </div>
-                <div class="beer-logo">
-                  {beer.Logo != null ? (
-                    <img src={`${import.meta.env.STRAPI_URL}${beer.Logo.url}`} alt={`${beer.Name} logo`} />
-                  ) : (
-                    <span>Logo not available</span>
-                  )}
-                </div>
-                <p class="beer-style">
-                  <strong>Style:</strong> {beer.Style}
-                </p>
-                <p class="beer-score">
-                  <strong>Average Score:</strong> {beer.Average_score}
-                </p>
-              </li>
-            ))
-          }
-        </ul>
-      </div>
-    </main>
-  </body>
-</html>
+<script src="/src/scripts/beersFilter.js"></script>
 
 <style>
-  body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f9f9f9;
-    margin: 0;
-    padding: 0;
-    color: #333;
-}
-
-header {
-    background-color: #fec000;
-    padding: 1rem 0;
-}
-
-/* Beer Filter Section */
-#beer-filter {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-    padding: 1.5rem;
-    margin: 1rem 0;
-}
-
-#beer-filter label {
-    font-weight: bold;
-}
-
-#beer-filter select {
-    padding: 0.5rem;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    width: 250px;
-    font-size: 1rem;
-}
-
-/* Beer List Section */
-.beer-list {
+  .beer-list {
     display: flex;
     flex-wrap: wrap;
     gap: 2rem;
     justify-content: center;
     padding: 2rem;
-}
+  }
 
-/* Beer Card Styling */
-.beer-card {
-    background-color: #fff;
-    padding: 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    width: 300px; /* Fixed width for consistency */
-    transition: transform 0.3s ease;
-    text-align: center;
-}
-
-.beer-card:hover {
-    transform: translateY(-10px);
-}
-
-/* Beer Name */
-.beer-name {
-    font-size: 1.5rem;
-    color: #333;
-    margin: 0;
-    font-weight: bold;
-}
-
-/* Brewery Link */
-.beer-brewery {
-    margin-top: 1rem;
-    font-size: 1.1rem;
-}
-
-.brewery-link {
-    text-decoration: none;
-    color: #fec000;
-}
-
-/* Beer Style */
-.beer-style {
-    margin-top: 1rem;
-    font-size: 1.1rem;
-    color: #666;
-}
-
-/* Average Score */
-.beer-score {
-    margin-top: 1rem;
-    font-size: 1.1rem;
-    color: #666;
-}
-
-/* Beer Logo */
-.beer-logo img {
-    max-width: 120px;
-    height: auto;
-    display: block;
-    margin: 1rem auto;
-}
-
-/* Media Queries for Responsive Design */
-@media (max-width: 768px) {
+  @media (max-width: 768px) {
     #beer-filter {
-        flex-direction: column;
-        padding: 1rem;
+      flex-direction: column;
+      padding: 1rem;
     }
 
     #beer-filter select {
-        width: 100%;
+      width: 100%;
     }
 
     .beer-card {
-        width: 100%;
-        max-width: 350px; /* Adjust width on smaller screens */
+      width: 100%;
+      max-width: 350px;
     }
-}
-
+  }
 </style>

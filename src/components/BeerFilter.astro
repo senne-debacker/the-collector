@@ -1,4 +1,14 @@
 <div class="filter-sort">
+    <label for="sort-select" class="filter-label">Sort By:</label>
+    <select id="sort-select" name="sort" class="filter-select">
+        <option value="name">Name (A-Z)</option>
+        <option value="name_">Name (Z-A)</option>
+        <option value="brewery">Brewery (A-Z)</option>
+        <option value="brewery_">Brewery (Z-A)</option>
+        <option value="score">Score (Ascending)</option>
+        <option value="score_">Score (Descending)</option>
+    </select>
+
     <label for="brewery-filter" class="filter-label">Search Brewery:</label>
     <input id="brewery-filter" type="text" placeholder="Enter brewery name" class="filter-input" />
 
@@ -10,16 +20,6 @@
 
     <label for="max-score-filter" class="filter-label">Max. Average Score:</label>
     <input id="max-score-filter" type="number" min="${minScore}" max="${maxScore}" step="0.1" class="filter-input" />
-
-    <label for="sort-select" class="filter-label">Sort By:</label>
-    <select id="sort-select" name="sort" class="filter-select">
-        <option value="name">Name (A-Z)</option>
-        <option value="name_">Name (Z-A)</option>
-        <option value="brewery">Brewery (A-Z)</option>
-        <option value="brewery_">Brewery (Z-A)</option>
-        <option value="score">Score (Ascending)</option>
-        <option value="score_">Score (Descending)</option>
-    </select>
 </div>
 
 <style>

@@ -1,120 +1,41 @@
 ---
-import fetchApi from "../lib/strapi";
-import Header from "../components/Header.astro";
+import fetchAllBeers from "../lib/fetchBeers.ts";
+
+import BaseLayout from "../layouts/BaseLayout.astro";
+import BeerCard from "../components/BeerCard.astro";
+
 import "../styles/global.css";
-
-const fetchAllBeers = async () => {
-  const pageSize = 25;
-  let page = 1;
-  let allBeers = [];
-
-  let fetchMore = true;
-  while (fetchMore) {
-    const beersPage = await fetchApi<Beer[]>({
-      endpoint: `beers?populate=*&pagination[page]=${page}&pagination[pageSize]=${pageSize}`,
-      wrappedByKey: "data",
-    });
-
-    allBeers = [...allBeers, ...beersPage];
-
-    if (beersPage.length < pageSize) {
-      fetchMore = false;
-    } else {
-      page++;
-    }
-  }
-
-  return allBeers;
-};
 
 const beers = await fetchAllBeers();
 
 const randomBeer = beers[Math.floor(Math.random() * beers.length)];
+
+const pageTitle = "Home";
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MyBeers - Random Beer</title>
-    <link rel="stylesheet" href="/styles/global.css" />
-  </head>
-  <body>
-    <Header />
-
-    <main>
-      <section class="intro">
-        <h1>Welcome to my beer collection</h1>
-        <p>
-          As a proud Belgian, I have a deep appreciation for our beers — all of
-          them. However, there's no denying that some beers stand out as truly
-          exceptional. That's why I started using Untappd a few years ago.
-          Untappd is an app with an extensive database of beers from around the
-          world. Whenever I try a new beer, I log it in the app and give it a
-          rating. On this website, I’m excited to share some of the beers I've
-          tasted over the years. Feel free to explore! You might discover a few
-          beers you haven't tried yet.
-        </p>
-      </section>
-
-      <section class="random-beer">
-        <h2>Random Suggestion</h2>
-        <div class="beer-card">
-          <a href={`/beers/${randomBeer.Name}/`} class="beer-link">
-            <h3 class="beer-name">{randomBeer.Name}</h3>
-          </a>
-
-          <div class="beer-brewery">
-            {randomBeer.Brewery ? (
-              <a
-                href={`/breweries/${randomBeer.Brewery.Name}/`}
-                class="brewery-link"
-              >
-                {randomBeer.Brewery.Name}
-              </a>
-            ) : (
-              <span>Brewery not available</span>
-            )}
-          </div>
-
-          <div class="beer-logo">
-            {randomBeer.Logo ? (
-              <img
-                src={`${import.meta.env.STRAPI_URL}${randomBeer.Logo.url}`}
-                alt={`${randomBeer.Name} logo`}
-              />
-            ) : (
-              <span>Logo not available</span>
-            )}
-          </div>
-
-          <p class="beer-style">
-            <strong>Style:</strong> {randomBeer.Style}
-          </p>
-          <p class="beer-score">
-            <strong>Average Score:</strong> {randomBeer.Average_score}
-          </p>
-        </div>
-      </section>
-    </main>
-  </body>
-</html>
+<BaseLayout pageTitle={pageTitle}>
+  <main>
+    <section class="intro">
+      <h1>Welcome to my beer collection</h1>
+      <p>
+        As a proud Belgian, I have a deep appreciation for our beers — all of
+        them. However, there's no denying that some beers stand out as truly
+        exceptional. That's why I started using Untappd a few years ago. Untappd
+        is an app with an extensive database of beers from around the world.
+        Whenever I try a new beer, I log it in the app and give it a rating. On
+        this website, I’m excited to share some of the beers I've tasted over
+        the years. Feel free to explore! You might discover a few beers you
+        haven't tried yet.
+      </p>
+    </section>
+    <section class="random-beer">
+      <h2>Random Suggestion</h2>
+      <BeerCard beer={randomBeer} />
+    </section>
+  </main>
+</BaseLayout>
 
 <style>
-  body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-    color: #333;
-  }
-
-  header {
-    background-color: #fec000;
-    padding: 1rem 0;
-  }
-
   .intro {
     text-align: center;
     max-width: 800px;
@@ -138,64 +59,11 @@ const randomBeer = beers[Math.floor(Math.random() * beers.length)];
   }
 
   .random-beer {
-    margin: 2rem 0;
-    text-align: center;
-  }
-
-  .beer-card {
-    background-color: #fff;
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-
-  .beer-link {
-    text-decoration: none;
-    color: #333;
-  }
-
-  .beer-name {
-    font-size: 1.5rem;
-    color: #333;
-    margin: 0;
-  }
-
-  .beer-brewery a {
-    font-size: 1rem;
-    color: #0066cc;
-    text-decoration: none;
-  }
-
-  .beer-brewery span {
-    font-size: 1rem;
-    color: #888;
-  }
-
-  .beer-logo {
-    margin-top: 1rem;
-  }
-
-  .beer-logo img {
-    max-width: 100px;
-    height: auto;
-    display: block;
-    margin: 0 auto;
-  }
-
-  .beer-style, .beer-score {
-    margin-top: 1rem;
-    font-size: 1rem;
-    color: #333;
-  }
-
-  .beer-score {
-    font-weight: bold;
-  }
-
-  a:hover {
-    text-decoration: underline;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+    padding: 2rem;
   }
 
   @media (max-width: 768px) {

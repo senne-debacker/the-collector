@@ -11,7 +11,6 @@
 </header>
 
 <style>
-    /* General Styling for the Header */
     header {
         background-color: #fec000;
         padding: 1rem 2rem;
@@ -28,7 +27,6 @@
         margin: 0;
     }
 
-    /* Styling for the Links */
     nav a {
         font-size: 1.1rem;
         font-weight: 600;
@@ -40,13 +38,11 @@
         transition: color 0.3s ease, background-color 0.3s ease;
     }
 
-    /* Hover Effect on Links */
     nav a:hover {
         background-color: #333;
         color: #fff;
     }
 
-    /* Specific Styling for 'MyBeers' */
     .home a {
         font-size: 1.3rem;
         font-weight: 700;
@@ -54,7 +50,6 @@
         color: #333;
     }
 
-    /* Optional: Styling for Active Link */
     .home a.active,
     .beers a.active,
     .breweries a.active {
@@ -62,7 +57,6 @@
         background-color: #007BFF;
     }
 
-    /* Grid Styling for Right Links */
     .right-links {
         display: grid;
         grid-auto-flow: column;
@@ -70,14 +64,13 @@
         gap: 2rem;
     }
 
-    /* Responsive Design */
     @media (max-width: 768px) {
         header {
             padding: 1rem;
         }
 
         nav ul {
-            grid-template-columns: 1fr; /* Stacks the links on smaller screens */
+            grid-template-columns: 1fr;
             gap: 1rem;
             text-align: center;
         }
