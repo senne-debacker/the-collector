@@ -10,6 +10,12 @@ the-collector
 .     .
 .     + - components
 .     .     .
+.     .     + - BeerFilter.astro
+.     .     .
+.     .     + - BeerList.astro
+.     .     .
+.     .     + - BreweryFilter.astro
+.     .     .
 .     .     + - Header.astro
 .     .
 .     + - interfaces
@@ -45,7 +51,7 @@ the-collector
 .     .     + - breweriesFilter.js
 .     .
 .     + - styles
-.     .     .
-.     .     + - global.css
+.           .
+.           + - global.css
 .
 + - .env
