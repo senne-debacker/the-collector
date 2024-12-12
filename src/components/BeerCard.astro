@@ -15,12 +15,7 @@ const { beer, pageTitle } = Astro.props;
     <div class="beer-brewery">
         {
             beer.Brewery ? (
-                <a
-                    href={`/breweries/${beer.Brewery.Name}/`}
-                    class="brewery-link"
-                >
-                    {beer.Brewery.Name}
-                </a>
+                <p>{beer.Brewery.Name}</p>  
             ) : (
                 <span>Brewery not available</span>
             )
