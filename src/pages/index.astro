@@ -2,7 +2,7 @@
 import fetchAllBeers from "../lib/fetchBeers.ts";
 
 import BaseLayout from "../layouts/BaseLayout.astro";
-import BeerCard from "../components/BeerCard.astro";
+import RandomBeer from "../components/RandomBeer.astro";
 
 import "../styles/global.css";
 
@@ -12,10 +12,9 @@ const randomBeer = beers[Math.floor(Math.random() * beers.length)];
 
 const pageTitle = "Home";
 ---
-
 <BaseLayout pageTitle={pageTitle}>
-  <main>
-    <section class="intro">
+  <div class="layout">
+    <section class="page-intro">
       <h1>Welcome to my beer collection</h1>
       <p>
         As a proud Belgian, I have a deep appreciation for our beers — all of
@@ -28,15 +27,29 @@ const pageTitle = "Home";
         haven't tried yet.
       </p>
     </section>
+
+    <a class="beers-button" href="./beers/">Continue to the beers</a>
+
+    <a class="breweries-button" href="./breweries/">Continue to the breweries</a>
+
     <section class="random-beer">
       <h2>Random Suggestion</h2>
-      <BeerCard beer={randomBeer} />
+      <RandomBeer beer={randomBeer} />
     </section>
-  </main>
+  </div>
 </BaseLayout>
 
 <style>
-  .intro {
+  .layout {
+    margin-left: 20%;
+    margin-right: 20%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, auto);
+  }
+
+  .page-intro {
+    grid-column: 1 / 4;
     text-align: center;
     max-width: 800px;
     margin: 0 auto;
@@ -46,34 +59,50 @@ const pageTitle = "Home";
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   }
 
-  .intro h1 {
-    font-size: 2rem;
-    color: #333;
-  }
 
-  .intro p {
-    font-size: 1rem;
-    line-height: 1.5;
-    color: #666;
-    margin-top: 1rem;
-  }
+
+
+
+  .beers-button,
+.breweries-button {
+  align-self: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border: 2px solid #333;
+    border-radius: 8px;
+    height: 10rem;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    font-size: 1.5rem;
+    color: #fff;
+    text-decoration: none;
+    transition: transform 0.3s ease;
+}
+
+.beers-button {
+    justify-self: end;
+}
+
+.breweries-button {
+    justify-self: start;
+}
+
+.beers-button:hover,
+.breweries-button:hover {
+    transform: scale(1.05);
+}
 
   .random-beer {
+    grid-row: 2;
+    grid-column: 2;
     display: flex;
     flex-direction: column;
     gap: 2rem;
     align-items: center;
     padding: 2rem;
-  }
-
-  @media (max-width: 768px) {
-    .intro {
-      padding: 1rem;
-    }
-
-    .beer-card {
-      padding: 1rem;
-      width: 90%;
-    }
   }
 </style>

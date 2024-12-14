@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const minScoreFilter = document.getElementById("min-score-filter");
   const maxScoreFilter = document.getElementById("max-score-filter");
   const beerList = document.getElementById("beer-list");
-  let beerCards = Array.from(document.querySelectorAll(".beer-card"));
+  let beerCards = Array.from(document.querySelectorAll(".card"));
 
   function filterAndSortBeers() {
     const selectedSort = sortSelect.value;

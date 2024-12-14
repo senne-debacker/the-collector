@@ -6,169 +6,101 @@ import BaseLayout from "./../../layouts/BaseLayout.astro";
 import "../../styles/global.css";
 
 export async function getStaticPaths() {
-    const pageSize = 25;
-    let page = 1;
-    let allBreweries = [];
+  const pageSize = 25;
+  let page = 1;
+  let allBreweries = [];
 
-    let fetchMore = true;
-    while (fetchMore) {
-        const breweriesPage = await fetchApi<Brewery[]>({
-            endpoint: `breweries?populate=*&pagination[page]=${page}&pagination[pageSize]=${pageSize}`,
-            wrappedByKey: "data",
-        });
+  let fetchMore = true;
+  while (fetchMore) {
+    const breweriesPage = await fetchApi<Brewery[]>({
+      endpoint: `breweries?populate=*&pagination[page]=${page}&pagination[pageSize]=${pageSize}`,
+      wrappedByKey: "data",
+    });
 
-        allBreweries = [...allBreweries, ...breweriesPage];
+    allBreweries = [...allBreweries, ...breweriesPage];
 
-        if (breweriesPage.length < pageSize) {
-            fetchMore = false;
-        } else {
-            page++;
-        }
+    if (breweriesPage.length < pageSize) {
+      fetchMore = false;
+    } else {
+      page++;
     }
+  }
 
-    return allBreweries.map((brewery) => ({
-        params: { Name: brewery.Name },
-        props: { ...brewery },
-    }));
+  return allBreweries.map((brewery) => ({
+    params: { Name: brewery.Name },
+    props: { ...brewery },
+  }));
 }
 
 type Props = Brewery;
 
 const brewery = Astro.props;
-const pageTitle = brewery.Name
+const pageTitle = brewery.Name;
 ---
+
 <BaseLayout pageTitle={pageTitle}>
   <div class="layout">
-    <main class="content">
-      <section class="brewery-details">
-        <h1 class="brewery-title">{brewery.Name}</h1>
-        <div class="brewery-meta">
+    <div class="content">
+        <h1 class="item-title">{brewery.Name}</h1>
+        <div class="item-logo">
+          {
+            brewery.Logo != null ? (
+              <img
+                src={`${import.meta.env.STRAPI_URL}${brewery.Logo.url}`}
+                alt={`${brewery.Name} logo`} width="100px"
+              />
+            ) : (
+              <span>Logo not available</span>
+            )
+          }
+        </div>
+        <div class="item-meta">
           <p><strong>Location:</strong> {brewery.Location}</p>
-          <p><strong>Description:</strong> 
-            {brewery.Description != null ? brewery.Description : <span>Description not available</span>}
+          <p>
+            <strong>Description:</strong>
+            {
+              brewery.Description != null ? (
+                brewery.Description
+              ) : (
+                <span>Description not available</span>
+              )
+            }
           </p>
         </div>
-
-        <div class="brewery-logo">
-          {brewery.Logo != null ? (
-            <img
-              src={`${import.meta.env.STRAPI_URL}${brewery.Logo.url}`}
-              alt={`${brewery.Name} logo`}
-            />
-          ) : (
-            <span>Logo not available</span>
-          )}
-        </div>
-
-        <div class="brewery-beers">
-          <h3>Beers Produced</h3>
+        <div class="item-links">
+          <h3>Beers produced:</h3>
           <ul>
-            {brewery.Beers?.length > 0 ? (
-              brewery.Beers.map((beer) => (
-                <li key={beer.id}>
-                  <a href={`/beers/${beer.Name}/`} class="beer-link">{beer.Name}</a>
-                </li>
-              ))
-            ) : (
-              <li>No beers available</li>
-            )}
+            {
+              brewery.Beers?.length > 0 ? (
+                brewery.Beers.map((beer) => (
+                  <li key={beer.id}>
+                    <a href={`/beers/${beer.Name}/`} class="item-link">
+                      {beer.Name}
+                    </a>
+                  </li>
+                ))
+              ) : (
+                <li>No beers available</li>
+              )
+            }
           </ul>
         </div>
-      </section>
-    </main>
+    </div>
   </div>
 </BaseLayout>
 
-
-
-
 <style>
-.layout {
+  .layout {
     display: flex;
     justify-content: center;
-    padding: 2rem;
-}
+  }
 
-.content {
+  .content {
     background-color: #fff;
     padding: 2rem;
     width: 60%;
     max-width: 800px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-}
-
-.brewery-title {
-    font-size: 2rem;
-    color: #333;
-    font-weight: bold;
-    margin-bottom: 1rem;
-}
-
-.brewery-meta {
-    margin-bottom: 2rem;
-}
-
-.brewery-meta p {
-    font-size: 1.1rem;
-    color: #666;
-    margin: 0.5rem 0;
-}
-
-.brewery-logo {
-    text-align: center;
-    margin-bottom: 2rem;
-}
-
-.brewery-logo img {
-    max-width: 150px;
-    height: auto;
-    margin-bottom: 1rem;
-}
-
-.brewery-beers h3 {
-    font-size: 1.5rem;
-    color: #333;
-    margin-bottom: 1rem;
-}
-
-.brewery-beers ul {
-    list-style: none;
-    padding: 0;
-}
-
-.brewery-beers li {
-    font-size: 1.1rem;
-    margin: 0.5rem 0;
-}
-
-.beer-link {
-    text-decoration: none;
-    color: #fec000;
-    font-weight: bold;
-    transition: color 0.3s ease;
-}
-
-.beer-link:hover {
-    color: #333;
-}
-
-@media (max-width: 768px) {
-    .content {
-        width: 90%;
-        padding: 1.5rem;
-    }
-
-    .brewery-title {
-        font-size: 1.8rem;
-    }
-
-    .brewery-meta p {
-        font-size: 1rem;
-    }
-
-    .brewery-beers h3 {
-        font-size: 1.3rem;
-    }
-}
+  }
 </style>

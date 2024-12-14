@@ -13,21 +13,38 @@ const pageTitle = "Breweries";
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-    <main>
-        <BreweryFilter />
-
-        <section id="breweriesList" class="breweries-list">
-            {
-                breweries.map((brewery) => (
-                    <BreweryCard
-                        pageTitle={pageTitle}
-                        brewery={brewery}
-                        key={brewery.id}
-                    />
-                ))
-            }
-        </section>
-    </main>
+    <section class="page-intro">
+        <h1>Breweries</h1>
+    </section>
+    <BreweryFilter />
+    <section id="breweries-list" class="list">
+        {
+            breweries.map((brewery) => (
+                <BreweryCard
+                    pageTitle={pageTitle}
+                    brewery={brewery}
+                    key={brewery.id}
+                />
+            ))
+        }
+    </section>
 </BaseLayout>
 
 <script src="/src/scripts/breweriesFilter"></script>
+
+<style>
+    .page-intro {
+    text-align: center;
+    max-width: 10rem;
+    margin: auto;
+    margin-bottom: 2rem;
+    padding: 0.5rem;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  .page-intro h1 {
+    margin: 0;
+  }
+</style>

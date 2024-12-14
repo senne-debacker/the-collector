@@ -1,76 +1,26 @@
 ---
+import "./../styles/global.css";
+import "./../styles/card.css";
+
 const { brewery, pageTitle } = Astro.props;
 ---
 
-<div class="brewery-card">
-  <a href={`/breweries/${brewery.Name}/`} class="brewery-link">
-    <h2 class="brewery-name">{brewery.Name}</h2>
+<div class="card">
+  <a href={`/breweries/${brewery.Name}/`} class="card-link">
+    <h2 class="card-name">{brewery.Name}</h2>
+
+    <p class="card-location">{brewery.Location}</p>
+    <div class="card-logo">
+      {
+        brewery.Logo ? (
+          <img
+            src={`${import.meta.env.STRAPI_URL}${brewery.Logo.url}`}
+            alt={`${brewery.Name} logo`} width="100px"
+          />
+        ) : (
+          <span>Logo not available</span>
+        )
+      }
+    </div>
   </a>
-  <p class="brewery-location">{brewery.Location}</p>
-  <div class="brewery-logo">
-    {brewery.Logo ? (
-      <img
-        src={`${import.meta.env.STRAPI_URL}${brewery.Logo.url}`}
-        alt={`${brewery.Name} logo`}
-      />
-    ) : (
-      <span>Logo not available</span>
-    )}
-  </div>
 </div>
-
-<style>
-  .brewery-card {
-    background-color: #fff;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-    width: 90%;
-    max-width: 500px;
-    margin: 0 auto;
-  }
-
-  .brewery-card:hover {
-    transform: translateY(-10px);
-  }
-
-  .brewery-link {
-    text-decoration: none;
-    color: #333;
-  }
-
-  .brewery-name {
-    font-size: 1.8rem;
-    color: #333;
-    margin: 0;
-  }
-
-  .brewery-location {
-    font-size: 1rem;
-    color: #666;
-    margin-top: 0.5rem;
-  }
-
-  .brewery-logo {
-    margin-top: 1.5rem;
-  }
-
-  .brewery-logo img {
-    max-width: 120px;
-    height: auto;
-    display: block;
-    margin: 0 auto;
-  }
-
-  .hidden {
-    display: none;
-  }
-
-  @media (max-width: 768px) {
-    .brewery-card {
-      width: 95%;
-      padding: 1.5rem;
-    }
-  }
-</style>

@@ -1,4 +1,4 @@
-<header>
+<header class="header">
     <nav>
         <ul>
             <li class="home"><a href="/">MyBeers</a></li>
@@ -11,17 +11,20 @@
 </header>
 
 <style>
-    header {
+    .header {
+        position: sticky;
+        top: 0;
         background-color: #fec000;
         padding: 1rem 2rem;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-bottom: 2rem;
     }
 
     nav ul {
         display: grid;
         grid-template-columns: auto 1fr;
-        gap: 2rem;
         align-items: center;
+        gap: 2rem;
         list-style: none;
         padding: 0;
         margin: 0;
@@ -62,27 +65,5 @@
         grid-auto-flow: column;
         justify-self: end;
         gap: 2rem;
-    }
-
-    @media (max-width: 768px) {
-        header {
-            padding: 1rem;
-        }
-
-        nav ul {
-            grid-template-columns: 1fr;
-            gap: 1rem;
-            text-align: center;
-        }
-
-        .right-links {
-            justify-self: center;
-            grid-auto-flow: row;
-            gap: 1rem;
-        }
-
-        nav a {
-            font-size: 1rem;
-        }
     }
 </style>

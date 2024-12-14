@@ -1,0 +1,54 @@
+---
+import "./../styles/global.css";
+import "./../styles/card.css";
+
+const { beer } = Astro.props;
+---
+
+<div
+    class="card"
+    data-name={beer.Name}
+    data-brewery={beer.Brewery?.Name}
+    data-style={beer.Style}
+    data-score={beer.Average_score}
+>
+    <a href={`/beers/${beer.Name}/`} class="card-link">
+        <h2 class="card-name">{beer.Name}</h2>
+
+        <div class="beer-brewery">
+            {
+                beer.Brewery ? (
+                    <p>{beer.Brewery.Name}</p>
+                ) : (
+                    <span>Brewery not available</span>
+                )
+            }
+        </div>
+        <div class="card-logo">
+            {
+                beer.Logo != null ? (
+                    <img
+                        src={`${import.meta.env.STRAPI_URL}${beer.Logo.url}`}
+                        alt={`${beer.Name} logo`} width="100px"
+                    />
+                ) : (
+                    <span>Logo not available</span>
+                )
+            }
+        </div>
+        <p class="card-style">
+            <strong>Style:</strong>
+            {beer.Style}
+        </p>
+        <p class="card-score">
+            <strong>Average Score:</strong>
+            {beer.Average_score}
+        </p>
+    </a>
+</div>
+
+<style>
+    .card {
+        width: 100%;
+    }
+</style>

@@ -1,14 +1,113 @@
+:root {
+    --fs-sm-h1: clamp(0.7rem, 0.68vi + 0.49rem, 1.03rem);
+    --fs-base-h1: clamp(0.88rem, 1.03vi + 0.55rem, 1.38rem);
+    --fs-md-h1: clamp(1.09rem, 1.52vi + 0.62rem, 1.83rem);
+    --fs-lg-h1: clamp(1.37rem, 2.21vi + 0.68rem, 2.44rem);
+    --fs-xl-h1: clamp(1.71rem, 3.18vi + 0.72rem, 3.26rem);
+    --fs-xxl-h1: clamp(2.14rem, 4.52vi + 0.72rem, 4.34rem);
+    --fs-xxxl-h1: clamp(2.67rem, 6.39vi + 0.67rem, 5.79rem);
+
+    --fs-sm-h2: clamp(0.6rem, 0.69vi + 0.38rem, 0.94rem);
+    --fs-base-h2: clamp(0.75rem, 1.03vi + 0.43rem, 1.25rem);
+    --fs-md-h2: clamp(0.94rem, 1.49vi + 0.47rem, 1.67rem);
+    --fs-lg-h2: clamp(1.17rem, 2.15vi + 0.5rem, 2.22rem);
+    --fs-xl-h2: clamp(1.46rem, 3.07vi + 0.51rem, 2.96rem);
+    --fs-xxl-h2: clamp(1.83rem, 4.34vi + 0.47rem, 3.95rem);
+    --fs-xxxl-h2: clamp(2.29rem, 6.1vi + 0.38rem, 5.26rem);
+
+    --fs-sm-h3: clamp(0.5rem, 0.71vi + 0.28rem, 0.84rem);
+    --fs-base-h3: clamp(0.63rem, 1.03vi + 0.3rem, 1.13rem);
+    --fs-md-h3: clamp(0.78rem, 1.47vi + 0.32rem, 1.5rem);
+    --fs-lg-h3: clamp(0.98rem, 2.1vi + 0.32rem, 2rem);
+    --fs-xl-h3: clamp(1.22rem, 2.96vi + 0.3rem, 2.66rem);
+    --fs-xxl-h3: clamp(1.53rem, 4.16vi + 0.23rem, 3.55rem);
+    --fs-xxxl-h3: clamp(1.91rem, 5.8vi + 0.09rem, 4.73rem);
+
+    --fs-sm-p: clamp(0.4rem, 0.72vi + 0.18rem, 0.75rem);
+    --fs-base-p: clamp(0.5rem, 1.03vi + 0.18rem, 1rem);
+    --fs-md-p: clamp(0.63rem, 1.45vi + 0.17rem, 1.33rem);
+    --fs-lg-p: clamp(0.78rem, 2.04vi + 0.14rem, 1.78rem);
+    --fs-xl-p: clamp(0.98rem, 2.86vi + 0.08rem, 2.37rem);
+    --fs-xxl-p: clamp(1.22rem, 3.97vi + -0.02rem, 3.16rem);
+    --fs-xxxl-p: clamp(1.53rem, 5.5vi + -0.19rem, 4.21rem);
+}
+
 * {
     margin: 0;
     padding: 0;
 
     font-family: Arial, Helvetica, sans-serif;
+    color: #333;
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background-color: #d1d1d1;
     margin: 0;
     padding: 0;
+}
+
+h1 {
+    margin-bottom: 1rem;
+    font-size:  var(--fs-base-h1);
+}
+
+h2 {
+    font-size: var(--fs-base-h2);
+}
+
+h3 {
+    font-size: var(--fs-base-h3);
+}
+
+p {
+    line-height: 1.5;
+    color: #666;
+    font-size: var(--fs-base-p);
+}
+
+a {
+    text-decoration: none;
+}
+
+.list {
+    margin-left: 5%;
+    margin-right: 5%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.item-logo img {
+    border: 2px solid #333;
+}
+
+.item-meta p {
+    margin: 0.5rem 0;
+}
+
+.item-links h3 {
+    margin-bottom: 1rem;
+}
+
+.item-links ul {
+    list-style: none;
+    padding: 0;
+}
+
+.item-links li {
+    margin: 0.5rem 0;
+    margin-left: 0.4rem;
+}
+
+.item-link {
+    text-decoration: none;
+    color: #fec000;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.item-link:hover {
     color: #333;
-  }
+}

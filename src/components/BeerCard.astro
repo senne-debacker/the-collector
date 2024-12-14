@@ -1,112 +1,48 @@
 ---
+import "./../styles/global.css";
+import "./../styles/card.css";
+
 const { beer, pageTitle } = Astro.props;
 ---
 
 <div
-    class="beer-card"
+    class="card"
     data-name={beer.Name}
     data-brewery={beer.Brewery?.Name}
     data-style={beer.Style}
     data-score={beer.Average_score}
 >
-    <a href={`/beers/${beer.Name}/`} class="beer-link">
-        <h2 class="beer-name">{beer.Name}</h2>
+    <a href={`/beers/${beer.Name}/`} class="card-link">
+        <h2 class="card-name">{beer.Name}</h2>
+
+        <div class="beer-brewery">
+            {
+                beer.Brewery ? (
+                    <p>{beer.Brewery.Name}</p>
+                ) : (
+                    <span>Brewery not available</span>
+                )
+            }
+        </div>
+        <div class="card-logo">
+            {
+                beer.Logo != null ? (
+                    <img
+                        src={`${import.meta.env.STRAPI_URL}${beer.Logo.url}`}
+                        alt={`${beer.Name} logo`} width="100px"
+                    />
+                ) : (
+                    <span>Logo not available</span>
+                )
+            }
+        </div>
+        <p class="card-style">
+            <strong>Style:</strong>
+            {beer.Style}
+        </p>
+        <p class="card-score">
+            <strong>Average Score:</strong>
+            {beer.Average_score}
+        </p>
     </a>
-    <div class="beer-brewery">
-        {
-            beer.Brewery ? (
-                <p>{beer.Brewery.Name}</p>  
-            ) : (
-                <span>Brewery not available</span>
-            )
-        }
-    </div>
-    <div class="beer-logo">
-        {
-            beer.Logo != null ? (
-                <img
-                    src={`${import.meta.env.STRAPI_URL}${beer.Logo.url}`}
-                    alt={`${beer.Name} logo`}
-                />
-            ) : (
-                <span>Logo not available</span>
-            )
-        }
-    </div>
-    <p class="beer-style">
-        <strong>Style:</strong>
-        {beer.Style}
-    </p>
-    <p class="beer-score">
-        <strong>Average Score:</strong>
-        {beer.Average_score}
-    </p>
 </div>
-
-<style>
-    .beer-card {
-        background-color: #fff;
-        padding: 1.5rem;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        width: 300px; /* Fixed width for consistency */
-        transition: transform 0.3s ease;
-        text-align: center;
-    }
-
-    .beer-card:hover {
-        transform: translateY(-6px);
-    }
-
-    .beer-link {
-        text-decoration: none;
-        color: #333;
-    }
-
-    .beer-name {
-        font-size: 1.5rem;
-        color: #333;
-        margin: 0;
-    }
-
-    .beer-brewery a {
-        font-size: 1rem;
-        color: #0066cc;
-        text-decoration: none;
-    }
-
-    .beer-brewery span {
-        font-size: 1rem;
-        color: #888;
-    }
-
-    .beer-logo {
-        margin-top: 1rem;
-    }
-
-    .beer-logo img {
-        max-width: 100px;
-        height: auto;
-        display: block;
-        margin: 0 auto;
-    }
-
-    .beer-style,
-    .beer-score {
-        margin-top: 1rem;
-        font-size: 1rem;
-        color: #333;
-    }
-
-    .beer-score {
-        font-weight: bold;
-    }
-
-    a:hover {
-        text-decoration: underline;
-    }
-
-    .hidden {
-        display: none;
-    }
-</style>

@@ -1,0 +1,25 @@
+.card {
+    width: 20%;
+    padding: 1.5rem;
+    text-align: center;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: 0.3s ease;
+}
+
+.card:hover {
+    background-color: #f0f0f0;
+    transform: translateY(-6px);
+}
+
+.card-logo {
+    margin-top: 1rem;
+}
+
+.card-logo img {
+    display: block;
+    margin: auto;
+    margin-bottom: 0.8rem;
+    border: 2px solid #333;
+}
