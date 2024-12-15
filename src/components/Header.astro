@@ -1,17 +1,25 @@
-<header class="header">
+<header>
     <nav>
-        <ul>
-            <li class="home"><a href="/">MyBeers</a></li>
-            <div class="right-links">
-                <li class="beers"><a href="../../beers">Beers</a></li>
-                <li class="breweries"><a href="../../breweries">Breweries</a></li>
+        <ul class="navigation">
+            <li class="navigation-home">
+                <a href="/" class="navigation-link">MyBeers</a>
+            </li>
+            <div class="navigation-right-links">
+                <li class="beers">
+                    <a href="../../beers" class="navigation-link">Beers</a>
+                </li>
+                <li class="breweries">
+                    <a href="../../breweries" class="navigation-link"
+                        >Breweries</a
+                    >
+                </li>
             </div>
         </ul>
     </nav>
 </header>
 
 <style>
-    .header {
+    header {
         height: 2rem;
         position: sticky;
         top: 0;
@@ -21,7 +29,7 @@
         margin-bottom: 2rem;
     }
 
-    nav ul {
+    .navigation {
         display: grid;
         grid-template-columns: auto 1fr;
         align-items: center;
@@ -31,7 +39,7 @@
         margin: 0;
     }
 
-    nav a {
+    .navigation-link {
         font-size: 1.1rem;
         font-weight: 600;
         text-transform: uppercase;
@@ -39,22 +47,24 @@
         text-decoration: none;
         padding: 0.5rem;
         border-radius: 4px;
-        transition: color 0.3s ease, background-color 0.3s ease;
+        transition:
+            color 0.3s ease,
+            background-color 0.3s ease;
     }
 
-    nav a:hover {
+    .navigation-link:hover {
         background-color: var(--primary-text-color);
         color: var(--card-background-color);
     }
 
-    .home a {
+    .navigation-home a {
         font-size: 1.3rem;
         font-weight: 700;
         letter-spacing: 1px;
         color: var(--primary-text-color);
     }
 
-    .right-links {
+    .navigation-right-links {
         display: grid;
         grid-auto-flow: column;
         justify-self: end;
