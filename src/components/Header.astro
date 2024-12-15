@@ -12,9 +12,10 @@
 
 <style>
     .header {
+        height: 2rem;
         position: sticky;
         top: 0;
-        background-color: #fec000;
+        background-color: var(--primary-yellow);
         padding: 1rem 2rem;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         margin-bottom: 2rem;
@@ -34,7 +35,7 @@
         font-size: 1.1rem;
         font-weight: 600;
         text-transform: uppercase;
-        color: #333;
+        color: var(--primary-text-color);
         text-decoration: none;
         padding: 0.5rem;
         border-radius: 4px;
@@ -42,22 +43,15 @@
     }
 
     nav a:hover {
-        background-color: #333;
-        color: #fff;
+        background-color: var(--primary-text-color);
+        color: var(--card-background-color);
     }
 
     .home a {
         font-size: 1.3rem;
         font-weight: 700;
         letter-spacing: 1px;
-        color: #333;
-    }
-
-    .home a.active,
-    .beers a.active,
-    .breweries a.active {
-        color: #fff;
-        background-color: #007BFF;
+        color: var(--primary-text-color);
     }
 
     .right-links {

@@ -30,6 +30,11 @@
     --fs-xl-p: clamp(0.98rem, 2.86vi + 0.08rem, 2.37rem);
     --fs-xxl-p: clamp(1.22rem, 3.97vi + -0.02rem, 3.16rem);
     --fs-xxxl-p: clamp(1.53rem, 5.5vi + -0.19rem, 4.21rem);
+
+    --primary-text-color: #333;
+    --secondary-text-color: #666;
+    --primary-yellow: #fec000;
+    --card-background-color: #fff;
 }
 
 * {
@@ -37,13 +42,16 @@
     padding: 0;
 
     font-family: Arial, Helvetica, sans-serif;
-    color: #333;
+    color: var(--primary-text-color);
 }
 
 body {
     background-color: #d1d1d1;
     margin: 0;
     padding: 0;
+    height: 100vh;
+    display: grid;
+    grid-template-rows: repeat(3, auto);
 }
 
 h1 {
@@ -61,7 +69,7 @@ h3 {
 
 p {
     line-height: 1.5;
-    color: #666;
+    color: var(--secondary-text-color);
     font-size: var(--fs-base-p);
 }
 
@@ -80,7 +88,7 @@ a {
 }
 
 .item-logo img {
-    border: 2px solid #333;
+    border: 2px solid var(--primary-text-color);
 }
 
 .item-meta p {
@@ -103,11 +111,11 @@ a {
 
 .item-link {
     text-decoration: none;
-    color: #fec000;
+    color: var(--primary-yellow);
     font-weight: bold;
     transition: color 0.3s ease;
 }
 
 .item-link:hover {
-    color: #333;
+    color: var(--primary-text-color);
 }

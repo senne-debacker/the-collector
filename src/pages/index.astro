@@ -12,7 +12,9 @@ const randomBeer = beers[Math.floor(Math.random() * beers.length)];
 
 const pageTitle = "Home";
 ---
+
 <BaseLayout pageTitle={pageTitle}>
+
   <div class="layout">
     <section class="page-intro">
       <h1>Welcome to my beer collection</h1>
@@ -27,9 +29,7 @@ const pageTitle = "Home";
         haven't tried yet.
       </p>
     </section>
-
     <a class="beers-button" href="./beers/">Continue to the beers</a>
-
     <a class="breweries-button" href="./breweries/">Continue to the breweries</a>
 
     <section class="random-beer">
@@ -54,47 +54,43 @@ const pageTitle = "Home";
     max-width: 800px;
     margin: 0 auto;
     padding: 2rem;
-    background-color: #fff;
+    background-color: var(--card-background-color);
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   }
 
-
-
-
-
   .beers-button,
-.breweries-button {
-  align-self: center;
+  .breweries-button {
+    align-self: center;
     display: flex;
     justify-content: center;
     align-items: center;
-    text-align: center;
-    border: 2px solid #333;
+
+    border: 0px solid var(--secondary-text-color);
+    background-color: var(--primary-yellow);
     border-radius: 8px;
-    height: 10rem;
-    width: 100%;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    font-size: 1.5rem;
-    color: #fff;
-    text-decoration: none;
-    transition: transform 0.3s ease;
-}
+    height: 4rem;
+    width: 80%;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, color 0.3s ease, background-color 0.3s ease;
+  }
 
-.beers-button {
+  .beers-button {
     justify-self: end;
-}
+  }
 
-.breweries-button {
+  .breweries-button {
     justify-self: start;
-}
+  }
 
-.beers-button:hover,
-.breweries-button:hover {
-    transform: scale(1.05);
-}
+  .beers-button:hover,
+  .breweries-button:hover {
+    transform: translateY(-6px);
+    color: var(--card-background-color);
+    background-color: var(--secondary-text-color);
+    
+  }
 
   .random-beer {
     grid-row: 2;
