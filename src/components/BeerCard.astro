@@ -25,10 +25,11 @@ const { beer, pageTitle } = Astro.props;
             }
         </div>
         <div class="card-logo">
+
             {
                 beer.Logo != null ? (
                     <img
-                        src={`${import.meta.env.STRAPI_URL}${beer.Logo.url}`}
+                        src={`./src/assets${beer.Logo.url}`}
                         alt={`${beer.Name} logo`} width="100px"
                     />
                 ) : (
